@@ -1,0 +1,24 @@
+# Ignore Python virtual environments and heavy binaries
+backend/venv/
+backend/**/*.lib
+backend/**/*.dll
+backend/**/*.pyd
+backend/**/*.exe
+
+# Ignore Python bytecode/cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore environment and secret files
+.env
+
+# Ignore logs and model files
+*.log
+*.pt
+*.pkl
+*.ckpt
+*.h5
+
+# Ignore frontend for now
+frontend/
