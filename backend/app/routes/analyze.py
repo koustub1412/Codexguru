@@ -1,12 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException
-from app.auth import get_current_user
-from pydantic import BaseModel
-from datetime import datetime
-from app.db import analyses_collection
-from app.services.starcoder_service import summarize_code
-from app.services.deepseek_service import detect_bugs
-from app.services.starcoder_service import summarize_code
+# app/routes/analyze.py
 
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+from app.auth import get_current_user
+from app.services.mistral_7b import summarize_code
 
 router = APIRouter()
 
@@ -14,10 +11,6 @@ class CodeInput(BaseModel):
     code: str
 
 @router.post("/analyze")
-def analyze_code(data: CodeInput, token: str = Depends(get_current_user)):
-    code = data.code
-    summary = summarize_code(code)
-    return {
-        "summary": summary,
-        "errors": []  # we’ll add DeepSeek later
-    }
+def analyze_code(code_input: CodeInput, user: dict = Depends(get_current_user)):
+    summary = summarize_code(code_input.code)
+    return {"summary": summary}

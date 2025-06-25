@@ -1,3 +1,5 @@
+# app/services/llama_service.py
+
 import requests
 
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
@@ -6,17 +8,17 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-def debug_code(code: str):
+def detect_bugs(code: str) -> str:
     payload = {
         "model": "meta-llama/llama-3-8b-instruct",
         "messages": [
-            {"role": "user", "content": f"Debug this code and check for errrors(if any):\n\n{code}"}
+            {"role": "user", "content": f"check for errors (if any):\n\n{code}"}
         ]
     }
 
     response = requests.post(API_URL, headers=HEADERS, json=payload)
-    print("Status Code:", response.status_code)
-    print("Response:", response.text)
 
-# Example
-debug_code("def add(a, b):\n return a+b")
+    if response.status_code == 200:
+        return response.json()["choices"][0]["message"]["content"]
+    else:
+        return "LLaMA API failed to debug code."
