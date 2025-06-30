@@ -30,11 +30,36 @@ CodexGuru is a full-stack AI-powered tool that helps developers **summarize** an
 
 ## 📁 Folder Structure
 
+```plaintext
 Codexguru/
+├── backend/                   # FastAPI backend
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── routes/
+│   │   │   ├── analyze.py
+│   │   │   └── debug.py
+│   │   ├── services/
+│   │   │   ├── mistral_7b.py
+│   │   │   ├── llama_3_8b.py
+│   │   │   └── __init__.py
+│   │   └── __init__.py
+│   ├── test.py
+│   └── requirements.txt
 │
-├── backend/ # FastAPI backend with AI integration
-├── frontend/ # React frontend with login + code input UI
-└── README.md # You're reading it!
+├── frontend/                  # React frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── App.js
+│   │   └── index.js
+│   ├── .env
+│   └── package.json
+│
+├── .gitignore
+├── README.md
+└── CodexGuru.iml              # (remove if not needed)
+
+```
 
 ---
 
