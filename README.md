@@ -47,12 +47,15 @@ cd backend
 python -m venv venv
 venv\Scripts\activate  # or source venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload'''
+uvicorn app.main:app --reload
+```
 
 ### 🌐 Frontend (React)
+```bash
 cd frontend
 npm install
 npm start
+```
 🔐 Add .env files as needed for API keys
 
 👥 Contributors
