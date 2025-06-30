@@ -1,8 +1,13 @@
+
+// Register.jsx
 import React, { useState } from "react";
+import { TextField, Button, Typography, Container, Paper } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -10,45 +15,60 @@ function Register() {
 
   const handleRegister = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/register`, form);
-      alert("Registered successfully!");
-      window.location.href = "/login";
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/register`, form, {
+        headers: { "Content-Type": "application/json" },
+      });
+      alert("Registered successfully! Please log in.");
+      navigate("/login");
     } catch (err) {
       alert("Registration failed.");
     }
   };
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center bg-gradient-to-b from-gray-100 to-blue-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-xl flex flex-col space-y-4 items-center">
-        <h2 className="text-3xl font-bold text-indigo-700">Register</h2>
-        <input
+    <Container maxWidth="xs" style={{ marginTop: 80 }}>
+      <Paper style={{ padding: 30, backgroundColor: "#1E1E1E" }}>
+        <Typography variant="h5" gutterBottom style={{ color: "#ffffff" }}>
+          Register
+          
+        </Typography>
+        <TextField
+          fullWidth
+          label="Username"
           name="username"
-          placeholder="Username"
-          className="w-full p-3 border border-gray-300 rounded-md"
+          value={form.username}
           onChange={handleChange}
+          margin="normal"
+          InputLabelProps={{ style: { color: "#e0e0e0" } }}
+          InputProps={{ style: { color: "#ffffff" } }}
         />
-        <input
+        <TextField
+          fullWidth
+          label="Email"
+          type="email"
           name="email"
-          placeholder="Email"
-          className="w-full p-3 border border-gray-300 rounded-md"
+          value={form.email}
           onChange={handleChange}
+          margin="normal"
+          InputLabelProps={{ style: { color: "#e0e0e0" } }}
+          InputProps={{ style: { color: "#ffffff" } }}
         />
-        <input
+        <TextField
+          fullWidth
+          label="Password"
           type="password"
           name="password"
-          placeholder="Password"
-          className="w-full p-3 border border-gray-300 rounded-md"
+          value={form.password}
           onChange={handleChange}
+          margin="normal"
+          InputLabelProps={{ style: { color: "#e0e0e0" } }}
+          InputProps={{ style: { color: "#ffffff" } }}
         />
-        <button
-          onClick={handleRegister}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-md"
-        >
+        <Button fullWidth variant="contained" color="primary" onClick={handleRegister} style={{ marginTop: 20 }}>
           Register
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Paper>
+    </Container>
   );
 }
 

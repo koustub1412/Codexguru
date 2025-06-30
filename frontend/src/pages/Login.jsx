@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Paper,
+  Link,
+} from "@mui/material";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -9,48 +17,65 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/login`,
-        { email, password }
-      );
+      const formData = new URLSearchParams();
+      formData.append("username", email);
+      formData.append("password", password);
+
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, formData, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+
       localStorage.setItem("token", res.data.access_token);
       alert("Login successful!");
-      navigate("/dashboard");
+      navigate("/editor");
     } catch (err) {
       alert("Login failed.");
     }
   };
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center bg-gradient-to-b from-gray-100 to-blue-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-xl flex flex-col space-y-4 items-center">
-        <h2 className="text-3xl font-bold text-indigo-700">Login</h2>
-        <input
+    <Container maxWidth="xs" style={{ marginTop: 80 }}>
+      <Paper style={{ padding: 30, backgroundColor: "#1E1E1E", color: "#ffffff" }}>
+        <Typography variant="h5" gutterBottom style={{ color: "#ffffff" }}>
+          Login
+        </Typography>
+        <TextField
+          fullWidth
+          label="Email"
           type="email"
-          placeholder="Email"
-          className="w-full p-3 border border-gray-300 rounded-md"
+          margin="normal"
+          variant="outlined"
           onChange={(e) => setEmail(e.target.value)}
+          InputLabelProps={{ style: { color: "#e0e0e0" } }}
+          InputProps={{ style: { color: "#ffffff" } }}
         />
-        <input
+        <TextField
+          fullWidth
+          label="Password"
           type="password"
-          placeholder="Password"
-          className="w-full p-3 border border-gray-300 rounded-md"
+          margin="normal"
+          variant="outlined"
           onChange={(e) => setPassword(e.target.value)}
+          InputLabelProps={{ style: { color: "#e0e0e0" } }}
+          InputProps={{ style: { color: "#ffffff" } }}
         />
-        <button
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
           onClick={handleLogin}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-md"
+          style={{ marginTop: 20 }}
         >
           Login
-        </button>
-        <div className="text-sm text-gray-600">
-          Don&apos;t have an account?{" "}
-          <Link to="/register" className="text-blue-600 underline">
-            Register
+        </Button>
+        <Typography style={{ marginTop: 16, color: "#ffffff" }}>
+          Don’t have an account?{" "}
+          <Link href="/register" underline="hover" style={{ color: "#42A5F5" }}>
+            Register here
           </Link>
-        </div>
-      </div>
-    </div>
+        </Typography>
+      </Paper>
+    </Container>
   );
 }
 

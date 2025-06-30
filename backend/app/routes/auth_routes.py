@@ -1,10 +1,10 @@
-from fastapi import APIRouter, HTTPException
-from app.models.schemas import UserRegister, UserLogin
-from app.db import users_collection
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from app.auth import hash_password, verify_password, create_access_token
-from fastapi import APIRouter
-router = APIRouter()
+from app.db import users_collection
+from app.models.schemas import UserRegister
 
+router = APIRouter()
 
 @router.post("/register")
 def register_user(user: UserRegister):
@@ -19,9 +19,12 @@ def register_user(user: UserRegister):
     return {"message": "User registered successfully"}
 
 @router.post("/login")
-def login_user(user: UserLogin):
-    db_user = users_collection.find_one({"email": user.email})
-    if not db_user or not verify_password(user.password, db_user["password"]):
+def login_user(form_data: OAuth2PasswordRequestForm = Depends()):
+    db_user = users_collection.find_one({"email": form_data.username})
+    if not db_user or not verify_password(form_data.password, db_user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    token = create_access_token({"sub": user.email})
-    return {"access_token": token}
+    token = create_access_token({"sub": db_user["email"]})
+    return {
+        "access_token": token,
+        "token_type": "bearer"
+    }
