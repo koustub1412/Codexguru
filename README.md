@@ -57,7 +57,6 @@ Codexguru/
 │
 ├── .gitignore
 ├── README.md
-└── CodexGuru.iml              # (remove if not needed)
 
 ```
 
