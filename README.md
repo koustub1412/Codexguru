@@ -49,7 +49,7 @@ venv\Scripts\activate  # or source venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload'''
 
-🌐 Frontend (React)
+### 🌐 Frontend (React)
 cd frontend
 npm install
 npm start
