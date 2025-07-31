@@ -7,6 +7,8 @@ from app.auth import get_current_user
 from app.services.mistral_7b import summarize_code
 from app.services.llama_3_8b import detect_bugs
 from app.db import analyses_collection
+from datetime import datetime
+import pytz
 
 router = APIRouter()
 
@@ -45,7 +47,7 @@ def analyze_and_debug_code(code_input: CodeInput, user: dict = Depends(get_curre
         "code": code_input.code,
         "summary": summary,
         "debug": debug_output,
-        "timestamp": datetime.utcnow()
+        "timestamp": datetime.now(pytz.timezone('Asia/Kolkata'))
     })
 
     return {
@@ -60,12 +62,15 @@ def get_history(user: dict = Depends(get_current_user)):
     history_cursor = analyses_collection.find({"email": user["email"]}).sort("timestamp", -1)
     history = []
     for record in history_cursor:
+        ist_time = ""
+        if record.get("timestamp"):
+            ist_time = record["timestamp"].astimezone(pytz.timezone("Asia/Kolkata")).strftime("%Y-%m-%d %H:%M:%S")
         history.append({
             "_id": str(record.get("_id")),
             "code": record.get("code", ""),
             "summary": record.get("summary", ""),
             "debug": record.get("debug", ""),
-            "timestamp": record.get("timestamp").isoformat() if record.get("timestamp") else ""
+            "timestamp": ist_time
         })
     return history
 

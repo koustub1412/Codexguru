@@ -57,7 +57,18 @@ function History() {
             <Grid item xs={12} key={entry._id}>
               <Paper style={{ padding: 20, backgroundColor: "#1E1E1E" }}>
                 <Typography variant="body2" style={{ color: "#ffffff" }}>
-                  <strong>🕓 Time:</strong> {new Date(entry.timestamp).toLocaleString()}
+                  <strong>🕓 Time:</strong> {new Date(entry.timestamp).toLocaleString("en-IN", {
+  timeZone: "Asia/Kolkata",
+  hour12: true,
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  
+})}
+
                 </Typography>
 
                 <Typography variant="body2" style={{ color: "#ffffff" }}>

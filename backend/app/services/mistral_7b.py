@@ -21,7 +21,7 @@ def summarize_code(code: str) -> str:
     if not OPENROUTER_API_KEY:
         return "❌ API key is missing. Please set OPENROUTER_API_KEY in your .env."
 
-    prompt = f"Summarize this code:\n```python\n{code}\n```"
+    prompt = f"Summarize this code in 200 words:\n```python\n{code}\n```"
     payload = {
         "model": "mistralai/mistral-7b-instruct",
         "messages": [
