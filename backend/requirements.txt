@@ -1,6 +1,7 @@
-PyJWT
 fastapi
 uvicorn
 python-dotenv
+PyJWT
 passlib[bcrypt]
 pymongo
+python-multipart
