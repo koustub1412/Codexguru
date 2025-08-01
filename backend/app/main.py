@@ -7,7 +7,10 @@ load_dotenv()
 
 app = FastAPI()
 
-app.add_middleware(CORSMiddleware,allow_origins=["*"], # frontend
-allow_credentials=True,allow_methods=["*"],allow_headers=["*"],)
-app.include_router(auth_routes.router)
-app.include_router(analyze_debug.router) 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://codexguru.vercel.app"],  # ✅ allow only your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

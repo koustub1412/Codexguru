@@ -18,7 +18,7 @@ def detect_bugs(code: str) -> str:
     if not OPENROUTER_API_KEY:
         return "❌ Missing OpenRouter API key."
 
-    prompt = f"""Debug the code and point out the errors(if any) limit to 200 words```python{code}```"""
+    prompt = f"""Debug the code and point out the errors(if any) limit to 75 words```python{code}```"""
     payload = {
         "model": "meta-llama/llama-3-8b-instruct",
         "messages": [
